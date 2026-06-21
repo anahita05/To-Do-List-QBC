@@ -1,0 +1,13 @@
+  @font-face {
+    font-family: 'Yekan';
+    src:    url('../assets/fonts/Yekan-Font-3.0/Yekan.eot');
+    src:    url('../assets/fonts/Yekan-Font-3.0/Yekan.eot?#iefix') format('embedded-opentype'),
+            url('../assets/fonts/Yekan-Font-3.0/Yekan.woff2') format('woff2'), 
+            url('../assets/fonts/Yekan-Font-3.0/Yekan.woff') format('woff'), 
+            url('../assets/fonts/Yekan-Font-3.0/Yekan.otf') format('opentype'), 
+            url('../assets/fonts/Yekan-Font-3.0/Yekan.ttf') format('truetype'); 
+    font-weight: normal;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+    font-display: auto;
+}

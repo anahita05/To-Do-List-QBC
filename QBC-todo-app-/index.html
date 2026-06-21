@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="fa-IR" dir="rtl" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="styles/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        /* light-mod */
+        /* primary colors */
+        --color-primary-light: #2c7ef8;
+        --color-primary-hover-light: #075cd9;
+        --color-on-primary-light: #ffffff;
+        /* background color and surface color */
+        --color-background-light: #ffffff;
+        --color-on-background-light: #191c1e;
+        --color-surface-light: #ffffff;
+        /* neutral colors */
+        --color-black: #000000;
+        --color-gray: #323233;
+        --color-gray-light-a: #646466;
+        --color-gray-light-b: #7d7d7f;
+        --color-gray-light-c: #afaeb2;
+        --color-gray-light-e: #e1e0e5;
+        --color-gray-light-f: #f5f6f8;
+        --color-gray-light-d: #c8c7cb;
+        --color-gray-light-g: #fefefe;
+        --color-gray-light-h: #ffffff;
+        /* error color */
+        --color-errors: #e63946;
+        --color-success: #90f677;
+        /* dark-mod */
+        /* primary colors */
+        --color-primary-dark: #3a86f8;
+        --color-primary-hover-dark: #6ba4fa;
+        /* background color and surface color */
+        --color-background-dark: #040810;
+        --color-on-background-dark: #e6e9ef;
+        /* neutral colors */
+        --color-light: #ffffff;
+
+        --dark-mode: class;
+      }
+      @custom-variant dark (&:where(.dark, .dark *));
+    </style>
+  </head>
+
+  <body class="min-h-screen font-['Yekan'] flex gap-10 dark:bg-background-dark">
+    <aside
+      id="sidebar"
+      class="fixed md:sticky top-[24px] right-[-280px] md:right-[19px] bottom-[10px] w-64 max-h-[calc(100vh-40px)] overflow-y-hidden rounded-xl bg-white shadow-[0_4px_12px_rgba(0,0,0,0.15)] z-20 dark:bg-[#091120] transition-all duration-300 ease-in-out"
+    >
+      <div class="h-full p-6 pb-4 flex flex-col text-gray-600 dark:text-white">
+        <!-- mobile -->
+        <div class="flex items-center justify-between pb-6 md:hidden">
+          <span class="text-lg font-bold"> کوئرا لیست </span>
+          <button
+            onclick="toggleSidebar()"
+            class="text-2xl font-bold cursor-pointer"
+          >
+            x
+          </button>
+        </div>
+
+        <!-- main profile -->
+        <div class="hidden md:flex items-center gap-5 pb-6">
+          <img
+            src="assets/images/profile/main_profile.png"
+            alt="profile"
+            class="w-12 h-12 rounded-full shadow-sm order-1"
+          />
+
+          <div class="flex flex-col text-right order-2">
+            <span class="text-lg font-bold">سلام، رویا</span>
+            <span id="sidebar-date" class="text-sm mt-0.5"
+              >سه‌شنبه،5 بهمن 1402</span
+            >
+          </div>
+        </div>
+
+        <nav class="flex-1 mt-6 space-y-2">
+          <!--active -->
+          <a
+            href="#"
+            class="flex items-center px-2 py-3 rounded-lg font-semibold bg-[#F5FAFF] text-[#007BFF] dark:bg-[#041933] dark:text-white"
+          >
+            <span class="ml-4 text-xl">
+              <svg
+                class="text-current"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M10.191 2.9a2.84 2.84 0 0 1 3.618 0l5.866 4.818a2.96 2.96 0 0 1 1.075 2.29v8.802c0 1.605-1.273 2.94-2.883 2.94H6.133c-1.61 0-2.883-1.335-2.883-2.94v-8.802c0-.886.392-1.73 1.075-2.29z"
+                />
+              </svg>
+            </span>
+            خانه
+          </a>
+
+          <!--Tasks-->
+          <a
+            href="#"
+            class="flex items-center px-2 py-3 rounded-lg text-gray-600 dark:text-white hover:outline hover:outline-2 hover:outline-[#fff8f5]"
+          >
+            <span class="ml-4 text-xl">
+              <svg
+                class="text-current"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="m10.95 16.866l4.958-4.958l-.72-.72l-4.244 4.245l-2.138-2.139l-.714.714zM6.616 21q-.691 0-1.153-.462T5 19.385V4.615q0-.69.463-1.152T6.616 3H14.5L19 7.5v11.885q0 .69-.462 1.153T17.384 21zM14 8V4H6.616q-.231 0-.424.192T6 4.615v14.77q0 .23.192.423t.423.192h10.77q.23 0 .423-.192t.192-.424V8zM6 4v4zv16z"
+                />
+              </svg>
+            </span>
+            تسک‌ها
+          </a>
+
+          <!--Calender-->
+          <a
+            href="#"
+            class="flex items-center px-2 py-3 rounded-lg text-gray-600 dark:text-white hover:outline hover:outline-2 hover:outline-[#fff8f5]"
+          >
+            <span class="ml-4 text-xl">
+              <svg
+                class="text-current"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M5.616 21q-.691 0-1.153-.462T4 19.385V6.615q0-.69.463-1.152T5.616 5h1.769V2.77h1.077V5h7.154V2.77h1V5h1.769q.69 0 1.153.463T20 6.616v12.769q0 .69-.462 1.153T18.384 21z"
+                />
+              </svg>
+            </span>
+            تقویم
+          </a>
+
+          <!-- Reports -->
+          <a
+            href="#"
+            class="flex items-center px-2 py-3 rounded-lg text-gray-600 dark:text-white hover:outline hover:outline-2 hover:outline-[#fff8f5]"
+          >
+            <span class="ml-4 text-xl">
+              <svg
+                class="text-current"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M5.616 21q-.691 0-1.153-.462T4 19.385V6.615q0-.69.463-1.152T5.616 5h1.769V2.77h1.077V5h7.154V2.77h1V5h1.769q.69 0 1.153.463T20 6.616v12.769q0 .69-.462 1.153T18.384 21zm0-1h12.769q.23 0 .423-.192t.192-.424v-8.768H5v8.769q0 .23.192.423t.423.192M5 9.615h14v-3q0-.23-.192-.423T18.384 6H5.616q-.231 0-.424.192T5 6.616zm0 0V6zm7 4.539q-.31 0-.54-.23t-.23-.54t.23-.539t.54-.23t.54.23t.23.54t-.23.539t-.54.23m-4 0q-.31 0-.54-.23t-.23-.54t.23-.539t.54-.23t.54.23t.23.54t-.23.539t-.54.23m8 0q-.31 0-.54-.23t-.23-.54t.23-.539t.54-.23t.54.23t.23.54t-.23.539t-.54.23M12 18q-.31 0-.54-.23t-.23-.54t.23-.539t.54-.23t.54.23t.23.54t-.23.54T12 18m-4 0q-.31 0-.54-.23t-.23-.54t.23-.539t.54-.23t.54.23t.23.54t-.23.54T8 18m8 0q-.31 0-.54-.23t-.23-.54t.23-.539t.54-.23t.54.23t.23.54t-.23.54T16 18"
+                />
+              </svg>
+            </span>
+            گزارشات
+          </a>
+
+          <!-- Setting -->
+          <a
+            href="#"
+            class="flex items-center px-2 py-3 rounded-lg text-gray-600 dark:text-white hover:outline hover:outline-2 hover:outline-[#fff8f5]"
+          >
+            <span class="ml-4 text-xl">
+              <svg
+                class="text-current"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  class="fill-current"
+                  d="m19.59 15.5l-1.82-1.3c.3-1.08.32-2.25 0-3.42l1.82-1.28L18.14 7l-2.03.92c-.79-.8-1.79-1.42-2.96-1.71L12.95 4h-2.9l-.2 2.21c-1.17.29-2.17.91-2.96 1.71L4.86 7L3.41 9.5l1.82 1.28c-.32 1.17-.3 2.34 0 3.42l-1.82 1.3L4.86 18l2.03-.93c.79.79 1.79 1.39 2.96 1.7l.2 2.23h2.9l.2-2.23c1.17-.31 2.17-.91 2.96-1.7l2.03.93zM13.5 3c.27 0 .5.2.5.46l.18 2.04c.76.28 1.44.69 2.05 1.18l1.85-.87c.23-.12.52-.04.66.19l2 3.5c.14.21.06.5-.16.65l-1.67 1.17c.13.8.12 1.59 0 2.36l1.67 1.17c.22.15.3.44.16.65l-2 3.5c-.14.21-.43.29-.66.17l-1.85-.86c-.61.49-1.29.89-2.05 1.19l-.18 2c0 .29-.23.5-.5.5h-4a.5.5 0 0 1-.5-.5l-.18-2c-.76-.3-1.44-.7-2.05-1.19l-1.85.86c-.23.12-.52.04-.66-.17l-2-3.5c-.14-.21-.06-.5.16-.65l1.67-1.17c-.12-.77-.13-1.56 0-2.36l-1.67-1.17c-.22-.15-.3-.44-.16-.65l2-3.5c.14-.23.43-.31.66-.19l1.85.87c.61-.49 1.29-.9 2.05-1.18L9 3.46c0-.26.23-.46.5-.46zm-2 6a3.5 3.5 0 0 1 3.5 3.5a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8 12.5A3.5 3.5 0 0 1 11.5 9m0 1A2.5 2.5 0 0 0 9 12.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5"
+                />
+              </svg>
+            </span>
+            تنظیمات
+          </a>
+
+          <!--Backup-->
+          <a
+            href="#"
+            class="flex items-center px-2 py-3 rounded-lg text-gray-600 dark:text-white hover:outline hover:outline-2 hover:outline-[#fff8f5]"
+          >
+            <span class="ml-4 text-xl">
+              <svg
+                class="text-current"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  class="fill-current"
+                  d="M6.5 13.5h7v-1h-7zm0-3h11v-1h-11zm0-3h9.942v-.023q-.367-.18-.639-.418t-.495-.559H6.5zM3 20.077V4.616q0-.691.463-1.153T4.615 3H14.6q-.061.25-.071.49t-.006.51H4.616q-.231 0-.424.192T4 4.615v13.03L5.65 16h13.735q.23 0 .423-.192t.192-.423V8.342q.287-.067.527-.155q.24-.087.473-.225v7.423q0 .69-.462 1.153T19.385 17H6.077zM4 4.616v12.769V4zm15 1.846q-1.038 0-1.77-.731t-.73-1.77t.73-1.769t1.77-.73t1.77.73t.73 1.77t-.73 1.769t-1.77.73"
+                />
+              </svg>
+            </span>
+            پشتیبانی
+          </a>
+
+          <!--Profile -->
+          <a
+            href="#"
+            class="flex items-center px-2 py-3 rounded-lg text-gray-600 dark:text-white hover:outline hover:outline-2 hover:outline-[#fff8f5]"
+          >
+            <span class="ml-4 text-xl">
+              <svg
+                class="text-current"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <g fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="9" r="3" />
+                  <circle cx="12" cy="12" r="10" />
+                  <path
+                    stroke-linecap="round"
+                    d="M17.97 20c-.16-2.892-1.045-5-5.97-5s-5.81 2.108-5.97 5"
+                  />
+                </g>
+              </svg>
+            </span>
+            پروفایل
+          </a>
+        </nav>
+
+        <!-- bottom -->
+        <div class="mt-auto pt-4">
+          <div
+            class="relative flex items-center justify-center p-1 mb-4 text-sm font-medium rounded-lg bg-gray-100 dark:bg-[#0C1B31]"
+          >
+            <div
+              class="slider absolute right-1 w-[calc(50%-0.25rem)] h-[calc(100%-0.5rem)] rounded-lg shadow"
+            ></div>
+
+            <!-- light -->
+            <button
+              class="light-mode-btn relative z-10 flex items-center justify-center w-1/2 p-1.5 font-semibold rounded-md text-gray-800 dark:bg-[#0C1B31] cursor-pointer"
+            >
+              <span class="ml-1">
+                <svg
+                  class="dark:text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M16 12a4 4 0 1 1-8 0a4 4 0 0 1 8 0m-4-8.5V5m0 14.004V20.5M5 12H3.5m17 0H19m-1-6l-1 1M6 6l1 1m0 10l-1 1m12 0l-1-1"
+                  />
+                </svg>
+              </span>
+              <span class="dark:text-[#7A7A7A]">روشن</span>
+            </button>
+
+            <!-- dark -->
+            <button
+              class="dark-mode-btn relative z-10 flex items-center justify-center w-1/2 p-1.5 rounded-md text-gray-500 dark:text-white dark:bg-[#002247] cursor-pointer"
+            >
+              <span class="ml-1">
+                <svg
+                  class="dark:text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    class="fill-current"
+                    stroke="#000"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M21 12.808c-.5 5.347-5.849 9.14-11.107 7.983C-.078 18.6 1.15 3.909 11.11 3C6.395 9.296 14.619 17.462 21 12.808"
+                  />
+                </svg>
+              </span>
+              <span class="dark:text-white">تاریک</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- divider -->
+        <div class="mb-4">
+          <div class="w-full h-0.5 bg-gray-200 rounded dark:bg-[#2F3132]"></div>
+        </div>
+
+        <!-- logout -->
+        <a
+          href="#"
+          class="flex items-center p-3 rounded-md text-gray-600 dark:text-white"
+        >
+          <span class="ml-4 text-xl">
+            <svg
+              class="text-current"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M5 21q-.825 0-1.412-.587T3 19v-4h2v4h14V5H5v4H3V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm5.5-4l-1.4-1.45L11.65 13H3v-2h8.65L9.1 8.45L10.5 7l5 5z"
+              />
+            </svg>
+          </span>
+          خروج
+        </a>
+      </div>
+    </aside>
+
+    <main class="overflow-hidden w-full md:w-[70%] mx-auto px-6 py-4">
+      <section class="header md:hidden">
+        <div
+          class="flex items-center justify-between mb-7 shadow-sm p-3 rounded-md dark:text-white dark:bg-[#091120]"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            class="hamburger-btn cursor-pointer"
+          >
+            <path
+              fill="currentColor"
+              d="M3 8h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2m18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2m0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2"
+            />
+          </svg>
+          <span class="text-lg font-bold"> کوئرا لیست </span>
+          <div></div>
+        </div>
+        <div class="flex items-center gap-5 pb-6">
+          <img
+            src="assets/images/profile/main_profile.png"
+            alt="profile"
+            class="w-12 h-12 rounded-full shadow-sm order-1"
+          />
+
+          <div class="flex flex-col text-right order-2">
+            <span class="text-lg font-bold dark:text-white">سلام، رویا</span>
+            <span id="mobile-date" class="text-sm mt-0.5 text-gray-400"
+              >امروز،سه‌شنبه،5 بهمن 1402
+            </span>
+          </div>
+        </div>
+      </section>
+      <div class="container">
+        <!-- Add Task -->
+        <section class="add-task flex flex-col gap-y-4 mt-5">
+          <!-- Title & Subtitle -->
+          <div class="gap-y-1">
+            <h2
+              class="text-base md:text-xl font-YekanBakhBlack font-semibold dark:text-white"
+            >
+              تسک‌های امروز
+            </h2>
+            <span class="task-count-text text-sm text-gray-400"
+              >تسکی برای امروز نداری!</span
+            >
+            <span
+              class="task-count-hidden hidden text-xs md:text-sm text-gray-400"
+              >3 تسک را باید انجام دهید.</span
+            >
+          </div>
+          <!-- Add Task Button -->
+          <div
+            class="add-task-btn flex items-center gap-x-2 dark:bg-[#091120] text-blue-500 dark:text-blue-400 border border-dashed border-gray-300 dark:border-blue-300 rounded-lg p-4 hover:bg-[#f5f6f7] dark:hover:bg-[#041933] cursor-pointer transition-colors duration-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+            <span class="text-sm">افزودن وظیفه جدید</span>
+          </div>
+        </section>
+
+        <!-- No Task Placeholder -->
+        <section class="no-task-section">
+          <div class="flex flex-col justify-center items-center gap-y-6 mt-9.5">
+            <div>
+              <img
+                src="./assets/images/mobile.png"
+                class="md:hidden"
+                alt="no-task-mobile"
+              />
+              <img
+                src="./assets/images/desctop.png"
+                class="hidden md:block"
+                alt="no-task-desctop"
+              />
+            </div>
+            <div class="flex flex-col justify-center items-center gap-y-2 masw">
+              <h2
+                class="text-base md:text-base font-semibold text-gray-light-c dark:text-neutral-400"
+              >
+                چه کارهایی امروز برای انجام داری؟
+              </h2>
+              <span
+                class="text-base md:text-sm text-gray-light-d dark:text-gray-500 max-w-68 md:max-w-none text-center"
+              >
+                میتونی الان تسک‌هاتو اینجا بنویسی و برنامه ریزی رو شروع کنی!
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Add Task Form (Example) -->
+        <section class="add-task-form mt-6">
+          <div
+            class="flex flex-col items-start border border-[#e9e9e9] rounded-xl bg-white mt-2.5 shadow-[0px_4px_58.5px_0px_rgba(0,_0,_0,_0.06)] dark:bg-[#060c18] dark:border-[#3d3d3d] dark:shadow-[0px_4px_4px_0px_rgba(0,_0,_0,_0.25)]"
+          >
+            <input
+              type="text"
+              class="w-full outline-none text-base text-[#7d7d7f] font-bold pr-4 mt-4 dark:text-white"
+              placeholder="نام تسک"
+            />
+            <textarea
+              class="resize-none w-full outline-none text-sm font-normal text-[#afaeb2] pr-4 mt-2 dark:text-[#848890]"
+              placeholder="توضیحات"
+            ></textarea>
+            <div
+              class="tag-btn flex justify-start cursor-pointer gap-2 mr-4 mb-6 px-2 py-1.25 border border-[#e9e9e9] rounded dark:border-[#6b6868]"
+            >
+              <svg
+                class="tags-icon -rotate-90 transition-transform duration-300"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+              >
+                <rect
+                  width="20"
+                  height="20"
+                  transform="matrix(0 1 -1 0 20 0)"
+                  fill="white dark:currentColor"
+                />
+                <path
+                  d="M17.416 3.51661V13.0499C17.416 13.6166 17.0243 14.325 16.541 14.625L10.9743 18.1083C10.4327 18.4416 9.58268 18.4083 9.07435 18.025L3.32435 13.7083C2.91602 13.4 2.58268 12.7333 2.58268 12.225V3.51661C2.58268 2.05828 4.18268 1.17498 5.42435 1.94165L9.11601 4.24995C9.60768 4.55828 10.4077 4.55828 10.8993 4.24995L14.591 1.94165C15.816 1.17498 17.416 2.06661 17.416 3.51661Z"
+                  fill="#AFAEB2"
+                  stroke="#AFAEB2"
+                  stroke-width="1.25"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <p class="dark:text-[#AFAEB2]">تگ‌ها</p>
+            </div>
+            <div
+              class="priority-selector flex items-center mr-4 mb-6 mt-4 p-2.5 border border-[#EBEDEF] rounded-lg shadow-[0px_12px_24px_-6px_rgba(20,_20,_25,_6%)] dark:border-none dark:bg-[#002247]"
+            >
+              <span
+                class="priority-btn text-right text-sm font-semibold cursor-pointer bg-[#C3FFF1] text-[#11A483] px-2 py-1 rounded dark:bg-[#233332] dark:text-[#02E1A2]"
+                >پایین</span
+              >
+              <span class="px-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1"
+                  height="20"
+                  viewBox="0 0 1 20"
+                  fill="none"
+                >
+                  <line x1="0.5" x2="0.5" y2="20" stroke="#EBEDEF" />
+                </svg>
+              </span>
+              <span
+                class="priority-btn text-right text-sm font-semibold cursor-pointer bg-[#ffefd6] text-[#ffaf37] px-2 py-1 rounded dark:bg-[#302F2D]"
+                >متوسط</span
+              >
+              <span class="px-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1"
+                  height="20"
+                  viewBox="0 0 1 20"
+                  fill="none"
+                >
+                  <line x1="0.5" x2="0.5" y2="20" stroke="#EBEDEF" />
+                </svg>
+              </span>
+              <span
+                class="priority-btn text-right text-sm font-semibold cursor-pointer bg-[#ffe2db] text-[#ff5f37] px-2 py-1 rounded dark:bg-[#3D2327]"
+                >بالا</span
+              >
+            </div>
+            <span
+              class="self-stretch border-t border-t-[#e9e9e9] dark:border-t-[#3d3d3d]"
+            ></span>
+            <div
+              class="self-end flex flex-row-reverse items-center justify-end gap-3 ml-4 mt-5"
+            >
+              <button
+                type="submit"
+                class="add-task-submit mb-4 ml-4 mt-0 px-4 py-1.5 rounded-md bg-[#66b0ff] text-white cursor-pointer dark:bg-[#002247]"
+              >
+                اضافه کردن تسک
+              </button>
+              <button
+                class="close-add-task-btn text-2xl font-bold leading-none border border-[#e9e9e9] rounded-md mb-4 ml-0 mt-0 px-4 py-[5px] bg-gray-100 cursor-pointer dark:text-white dark:bg-[#002247] dark:border-none"
+              >
+                x
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Active Tasks -->
+        <section class="active-tasks mt-6">
+          <div class="tasks">
+            <!-- Task 1 -->
+            <!-- <div
+              class="relative border border-gray-200 dark:border-none dark:bg-[#091120] mt-4 rounded-xl"
+            >
+              <span
+                class="bg-orange-600 absolute w-1 h-19 rounded-tl-lg rounded-bl-lg right-0 top-3.5"
+              ></span>
+              <div class="flex p-3 md:p-6 gap-x-4">
+                <span
+                  class="size-5 border border-gray-300 dark:border-trashEdit rounded-md md:cursor-pointer"
+                ></span>
+                <div class="flex flex-col gap-y-4">
+                  <div
+                    class="flex flex-col items-start justify-start md:flex-row md:gap-x-3 md:items-center gap-y-1"
+                  >
+                    <h3
+                      class="font-YekanBakhSemiBold font-semibold text-sm md:text-base dark:text-white"
+                    >
+                      جلسه با مدیران پروژه
+                    </h3>
+                    <span
+                      class="text-orange-600 dark:text-red-500 bg-red-200 dark:bg-highPriority py-0.5 px-2 rounded-sm text-xs font-YekanBakhSemiBold dark:bg-[#3D2327]"
+                      >بالا</span
+                    >
+                  </div>
+                  <p
+                    class="text-gray-400 font-YekanBakhRegular text-sm md:text-base"
+                  >
+                    جلسه با محسن یگانه و مریم جلالی
+                  </p>
+                </div>
+                <div class="absolute top-5 left-4">
+                  <div
+                    class="flex flex-col items-center justify-center space-y-1 md:left-6 md:cursor-pointer"
+                  >
+                    <span
+                      class="size-1 bg-gray-700 dark:bg-white rounded-full"
+                    ></span>
+                    <span
+                      class="size-1 bg-gray-700 dark:bg-white rounded-full"
+                    ></span>
+                    <span
+                      class="size-1 bg-gray-700 dark:bg-white rounded-full"
+                    ></span>
+                  </div>
+                  <div
+                    class="absolute flex items-center justify-center border border-gray-200 dark:border-trashEdit dark:bg-trashEditBg rounded-lg top-full left-0 p-1 gap-x-2.5"
+                  >
+                    <svg
+                      class="md:cursor-pointer text-trashEdit dark:text-white"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4 7H20M5 7L6 19C6 19.5304 6.21071 20.0391 6.58579 20.4142C6.96086 20.7893 7.46957 21 8 21H16C16.5304 21 17.0391 20.7893 17.4142 20.4142C17.7893 20.0391 18 19.5304 18 19L19 7M9 7V4C9 3.73478 9.10536 3.48043 9.29289 3.29289C9.48043 3.10536 9.73478 3 10 3H14C14.2652 3 14.5196 3.10536 14.7071 3.29289C14.8946 3.48043 15 3.73478 15 4V7M10 12L14 16M14 12L10 16"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    <span class="w-px h-5 bg-gray-200 dark:bg-trashEdit"></span>
+                    <svg
+                      class="md:cursor-pointer text-trashEdit dark:text-white"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7 7H6C5.46957 7 4.96086 7.21071 4.58579 7.58579C4.21071 7.96086 4 8.46957 4 9V18C4 18.5304 4.21071 19.0391 4.58579 19.4142C4.96086 19.7893 5.46957 20 6 20H15C15.5304 20 16.0391 19.7893 16.4142 19.4142C16.7893 19.0391 17 18.5304 17 18V17"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M16 4.99998L19 7.99998M20.385 6.58499C20.7788 6.19114 21.0001 5.65697 21.0001 5.09998C21.0001 4.543 20.7788 4.00883 20.385 3.61498C19.9912 3.22114 19.457 2.99988 18.9 2.99988C18.343 2.99988 17.8088 3.22114 17.415 3.61498L9 12V15H12L20.385 6.58499Z"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </section>
+
+        <!-- Edit Task Form -->
+        <section class="edit-task-form mt-6">
+          <div
+            class="flex flex-col items-start border border-[#e9e9e9] rounded-xl bg-white mt-2.5 shadow-[0px_4px_58.5px_0px_rgba(0,_0,_0,_0.06)] dark:bg-[#060c18] dark:border-[#3d3d3d] dark:shadow-[0px_4px_4px_0px_rgba(0,_0,_0,_0.25)]"
+          >
+            <input
+              type="text"
+              value="تماس با جمشید"
+              class="edit-task-title text-base font-bold mr-4 mt-4 dark:text-white bg-transparent outline-none w-full"
+            />
+
+            <input
+              type="text"
+              value="باید در مورد کارهای باقیمانده از پروژه قبلی صحبت کنیم."
+              class="edit-task-description text-base text-gray-500 mr-4 mt-4 dark:text-white bg-transparent outline-none w-full"
+            />
+            <div
+              class="edit-priority-selector flex items-center mr-4 mb-6 mt-4 p-2.5 border border-[#EBEDEF] rounded-lg shadow-[0px_12px_24px_-6px_rgba(20,_20,_25,_6%)] dark:border-none dark:bg-[#002247]"
+            >
+              <span
+                class="edit-priority-btn text-right text-sm font-semibold cursor-pointer bg-[#C3FFF1] text-[#11A483] px-2 py-1 rounded dark:bg-[#233332] dark:text-[#02E1A2]"
+                >پایین</span
+              >
+              <span class="px-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1"
+                  height="20"
+                  viewBox="0 0 1 20"
+                  fill="none"
+                >
+                  <line x1="0.5" x2="0.5" y2="20" stroke="#EBEDEF" />
+                </svg>
+              </span>
+              <span
+                class="edit-priority-btn text-right text-sm font-semibold cursor-pointer bg-[#ffefd6] text-[#ffaf37] px-2 py-1 rounded dark:bg-[#302F2D]"
+                >متوسط</span
+              >
+              <span class="px-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1"
+                  height="20"
+                  viewBox="0 0 1 20"
+                  fill="none"
+                >
+                  <line x1="0.5" x2="0.5" y2="20" stroke="#EBEDEF" />
+                </svg>
+              </span>
+              <span
+                class="edit-priority-btn text-right text-sm font-semibold cursor-pointer bg-[#ffe2db] text-[#ff5f37] px-2 py-1 rounded dark:bg-[#3D2327]"
+                >بالا</span
+              >
+            </div>
+
+            <span
+              class="self-stretch mt-6 border-t border-t-[#e9e9e9] dark:border-t-[#3d3d3d]"
+            ></span>
+            <button
+              type="submit"
+              class="edit-task-submit self-end mb-4 ml-4 mt-5 px-4 py-1.5 rounded-md bg-[#007BFF] text-white cursor-pointer dark:bg-[#002247]"
+            >
+              ویرایش تسک
+            </button>
+          </div>
+        </section>
+
+        <!-- Completed Tasks -->
+        <section
+          class="main-section-2 mt-5 bg-backgrond-light dark:text-on-primary-light pt-3"
+        >
+          <div class="mx-auto mt-7">
+            <h3 class="font-semibold text-xl">تسک‌های انجام شده</h3>
+            <p
+              class="completed-count-text text-sm mt-1 text-gray-light-a dark:text-[#848890]"
+            >
+              3 تسک انجام شده است.
+            </p>
+          </div>
+          <div class="my-6 mx-auto flex flex-col gap-6">
+            <!-- <div
+              class="relative border-[1px] border-gray-light-e border-solid rounded-xl flex items-start justify-between h-full dark:bg-[#091120] p-2 dark:border-gray"
+            >
+              <div
+                class="absolute right-0 h-[70%] w-1 bg-[#FFAF37] rounded-tl-xl rounded-bl-xl"
+              ></div>
+              <div class="flex items-start">
+                <input
+                  type="checkbox"
+                  name="task"
+                  id="task1"
+                  class="m-4 w-5 h-5 accent-blue-500 cursor-pointer"
+                  checked
+                />
+                <label for="task1" class="text-lg w- mt-2 line-through"
+                  >خرید میوه و سبزیجات و لبنیات برای خانه</label
+                >
+              </div>
+              <div class="absolute top-5 left-4">
+                <div
+                  class="flex flex-col items-center justify-center space-y-1 md:left-6 md:cursor-pointer"
+                >
+                  <span
+                    class="size-1 bg-gray-700 dark:bg-white rounded-full"
+                  ></span>
+                  <span
+                    class="size-1 bg-gray-700 dark:bg-white rounded-full cursor-pointer"
+                  ></span>
+                  <span
+                    class="size-1 bg-gray-700 dark:bg-white rounded-full"
+                  ></span>
+                </div>
+                <div
+                  class="absolute flex items-center justify-center border border-gray-200 dark:border-trashEdit dark:bg-trashEditBg rounded-lg top-full left-0 p-1 gap-x-2.5"
+                >
+                  <svg
+                    class="md:cursor-pointer text-trashEdit dark:text-white"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4 7H20M5 7L6 19C6 19.5304 6.21071 20.0391 6.58579 20.4142C6.96086 20.7893 7.46957 21 8 21H16C16.5304 21 17.0391 20.7893 17.4142 20.4142C17.7893 20.0391 18 19.5304 18 19L19 7M9 7V4C9 3.73478 9.10536 3.48043 9.29289 3.29289C9.48043 3.10536 9.73478 3 10 3H14C14.2652 3 14.5196 3.10536 14.7071 3.29289C14.8946 3.48043 15 3.73478 15 4V7M10 12L14 16M14 12L10 16"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <span class="w-px h-5 bg-gray-200 dark:bg-trashEdit"></span>
+                  <svg
+                    class="md:cursor-pointer text-trashEdit dark:text-white"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7 7H6C5.46957 7 4.96086 7.21071 4.58579 7.58579C4.21071 7.96086 4 8.46957 4 9V18C4 18.5304 4.21071 19.0391 4.58579 19.4142C4.96086 19.7893 5.46957 20 6 20H15C15.5304 20 16.0391 19.7893 16.4142 19.4142C16.7893 19.0391 17 18.5304 17 18V17"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M16 4.99998L19 7.99998M20.385 6.58499C20.7788 6.19114 21.0001 5.65697 21.0001 5.09998C21.0001 4.543 20.7788 4.00883 20.385 3.61498C19.9912 3.22114 19.457 2.99988 18.9 2.99988C18.343 2.99988 17.8088 3.22114 17.415 3.61498L9 12V15H12L20.385 6.58499Z"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </section>
+      </div>
+    </main>
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/date.js"></script>
+    <script src="./scripts/darkMode.js"></script>
+  </body>
+</html>
